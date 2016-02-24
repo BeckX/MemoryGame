@@ -11,6 +11,6 @@ is highly appreciated!
 Important : 
 
 # needs Python 3.5 and Pygame to run
-# motives folder must be in the same folder as MemoryGame.py
+# motives folder must be in the same folder as Memory_Game.py
 # this project is licensed under CC Attribution-NonCommercial 4.0 International (http://creativecommons.org/licenses/by-nc/4.0/)
 
