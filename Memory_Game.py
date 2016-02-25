@@ -69,6 +69,7 @@ def main():
 
                 if new_rect.collidepoint(mousey,mousex):
                     # new game button clicked ;  create new Game
+                    pairs_to_go = 6
                     ICONS = create_icons()
                     DISPLAYSURF.blit(bg_image,(0,0))
                     draw_board()
@@ -80,7 +81,7 @@ def main():
 
 
         for icon in ICONS:
-            if mouse_clicked and first_revealed is None and icon.pos != first_revealed.pos:
+            if mouse_clicked and first_revealed is not None and icon.pos != first_revealed.pos and icon.clickable:
 
                 if icon.pos.collidepoint(mousey, mousex):
                     #show icon image
@@ -91,8 +92,11 @@ def main():
 
 
                     if first_revealed.name == icon.name: #got a pair
+
                         icon.clickable = False
                         first_revealed = None
+
+
                     else :
                         #show icon image a little while
                         pygame.time.delay(200)
@@ -108,7 +112,7 @@ def main():
                         DISPLAYSURF.blit(first_revealed.display_image, first_revealed.pos)
 
                         first_revealed = None
-
+        
         # change mouse cursor if above clickable item
         if any((icon.pos.collidepoint(mousey,mousex) and icon.clickable) for icon in ICONS) or new_rect.collidepoint(mousey,mousex) :
             pygame.mouse.set_cursor(*pygame.cursors.diamond)
