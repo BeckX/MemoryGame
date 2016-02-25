@@ -17,7 +17,7 @@ COL = 4
 
 
 def main():
-    global FPSCLOCK, DISPLAYSURF, ICONS, IMAGES
+    global FPSCLOCK, DISPLAYSURF, ICONS
     pygame.init()
 
     DISPLAYSURF = pygame.display.set_mode((WIN_WIDTH,WIN_HEIGHT), SRCALPHA, 32)
@@ -26,7 +26,7 @@ def main():
     bg_image = pygame.transform.smoothscale(bg_image, (WIN_WIDTH, WIN_HEIGHT))
     DISPLAYSURF.blit(bg_image,(0,0))
 
-    IMAGES = loadIconImgs()
+    #IMAGES = loadIconImgs()
 
     #stores x and y coordinates of mouse event
     mousex = 0
@@ -57,9 +57,9 @@ def main():
 
             elif event.type == MOUSEBUTTONDOWN:
 
-                if first_revealed == None:
+                if first_revealed is None:
                     first_revealed = get_icon(mousex, mousey) # returns None if no icon at point
-                    if first_revealed != None:
+                    if first_revealed is not None:
                         DISPLAYSURF.blit(bg_image, first_revealed.pos,first_revealed.pos)
                         first_revealed.display_image = first_revealed.image
 
@@ -79,7 +79,7 @@ def main():
 
 
         for icon in ICONS:
-            if mouse_clicked and first_revealed != None and icon.pos != first_revealed.pos:
+            if mouse_clicked and first_revealed is None and icon.pos != first_revealed.pos:
 
                 if icon.pos.collidepoint(mousey, mousex):
                     #show icon image
@@ -163,47 +163,21 @@ def draw_board():
 
 
 def create_icons():
-    images = IMAGES
+
     icons = []
-    flower_1 = Icon('flower_1',images[0])
-    icons.append(flower_1)
-    flower_2 = Icon('flower_2', images[1])
-    icons.append(flower_2)
-    flower_3 = Icon('flower_3', images[2])
-    icons.append(flower_3)
-    bottle_1 = Icon('bottle_1', images[3])
-    icons.append(bottle_1)
-    bottle_2 = Icon('bottle_2', images[4])
-    icons.append(bottle_2)
-    bottle_3 = Icon('bottle_3', images[5])
-    icons.append(bottle_3)
+    for name in ("flower", "bottle"):
+        for num in range (1, 4):
 
-    flower_1_1 = Icon('flower_1',images[0])
-    icons.append(flower_1_1)
-    flower_2_2 = Icon('flower_2', images[1])
-    icons.append(flower_2_2)
-    flower_3_3 = Icon('flower_3', images[2])
-    icons.append(flower_3_3)
-    bottle_1_1 = Icon('bottle_1', images[3])
-    icons.append(bottle_1_1)
-    bottle_2_2 = Icon('bottle_2', images[4])
-    icons.append(bottle_2_2)
-    bottle_3_3 = Icon('bottle_3', images[5])
-    icons.append(bottle_3_3)
+            image_path = os.path.join("motives", "{}_{}.png".format(name, num))
 
+            img = pygame.image.load(image_path).convert_alpha()
+            image = pygame.transform.smoothscale(img, (BOX_SIZE,BOX_SIZE))
+            icon_name = "{}_{}".format(name, num)
+            for x in range(2):
+                icons.append(Icon(icon_name, image))
     return icons
 
 
-def loadIconImgs():
-    images=[]
-    images.append(pygame.image.load('motives/flower_1.png'))
-    images.append(pygame.image.load('motives/flower_2.png'))
-    images.append(pygame.image.load('motives/flower_3.png'))
-    images.append(pygame.image.load('motives/bottle_1.png'))
-    images.append(pygame.image.load('motives/bottle_2.png'))
-    images.append(pygame.image.load('motives/bottle_3.png'))
-    images=[pygame.transform.smoothscale(i, (BOX_SIZE,BOX_SIZE))for i in images]
-    return images
 
 class Icon:
     def __init__(self,name,image):
