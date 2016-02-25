@@ -22,8 +22,9 @@ def main():
 
     DISPLAYSURF = pygame.display.set_mode((WIN_WIDTH,WIN_HEIGHT), SRCALPHA, 32)
 
-    bg_image = pygame.image.load('motives/bg_page.jpg')
-    bg_image = pygame.transform.smoothscale(bg_image, (WIN_WIDTH, WIN_HEIGHT))
+    bg_image_path = os.path.join("motives", "bg_page.jpg")
+    bg_image = pygame.image.load(bg_image_path)
+    bg_image = pygame.transform.smoothscale(bg_image, (WIN_WIDTH, WIN_HEIGHT)).convert()
     DISPLAYSURF.blit(bg_image,(0,0))
 
     #IMAGES = loadIconImgs()
